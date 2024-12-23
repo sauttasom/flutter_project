@@ -1,0 +1,38 @@
+class Currency {
+  final String code;
+  final String name;
+
+  Currency({required this.code, required this.name});
+
+  factory Currency.fromJson(Map<String, dynamic> json) {
+    return Currency(
+      code: json['currencies']['code'],
+      name: json['currencies']['name'],
+    );
+  }
+}
+
+
+class CurrencyList {
+  final Map<int, String> currencies;
+  final int ms;
+   
+  CurrencyList({required this.currencies, required this.ms});
+
+  factory CurrencyList.fromJson(Map<String, dynamic> json) {
+    
+    var currenciesJson = json['currencies'] as Map<String, dynamic>;
+    var currenciesMap = currenciesJson.map((code, name) => MapEntry(code, name as String));
+    var currencyCodes = currenciesMap.keys.toList();
+    var currencyCodesMap = currencyCodes.asMap();
+    // var currencyCodesMap = <String, int>{};
+
+    // for (var i = 0; i < currencyCodes.length; i++) {
+    //   currencyCodesMap[currencyCodes[i]] = i; // ใช้ค่า index เป็น value
+    // }
+    return CurrencyList(
+      currencies: currencyCodesMap,
+      ms: json['ms'],
+    );
+  }
+}
